@@ -39,11 +39,41 @@
             font-size: 0.875rem;
             opacity: 0;
         }
+
+        .zoom-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        .zoom-button {
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-width: 100px;
+        }
+
+        .zoom-button:hover {
+            background: #f8fafc;
+        }
     </style>
 </head>
 <body>
     <div id="map-container">
         <div id="tooltip" class="tooltip"></div>
+        <div class="zoom-controls">
+            <button id="zoom-in-button" class="zoom-button">Zoom In +</button>
+            <button id="zoom-out-button" class="zoom-button">Zoom Out −</button>
+            <button id="reset-button" class="zoom-button">Reset</button>
+        </div>
     </div>
 
     <script>
@@ -59,13 +89,34 @@
 
             const g = svg.append("g");
 
+            const initialTransform = d3.zoomIdentity;
+            
             const zoom = d3.zoom()
-                .scaleExtent([1, 8])
+                .scaleExtent([0.5, 20])
                 .on("zoom", (event) => {
                     g.attr("transform", event.transform);
                 });
 
-            svg.call(zoom);
+            svg.call(zoom)
+                .on("dblclick.zoom", null);
+
+            document.getElementById("zoom-in-button").addEventListener("click", () => {
+                svg.transition()
+                    .duration(200)
+                    .call(zoom.scaleBy, 1.5);
+            });
+
+            document.getElementById("zoom-out-button").addEventListener("click", () => {
+                svg.transition()
+                    .duration(200)
+                    .call(zoom.scaleBy, 1 / 1.5);
+            });
+
+            document.getElementById("reset-button").addEventListener("click", () => {
+                svg.transition()
+                    .duration(750)
+                    .call(zoom.transform, initialTransform);
+            });
 
             try {
                 const [districts, legislators] = await Promise.all([
