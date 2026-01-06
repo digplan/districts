@@ -4,7 +4,9 @@
   "description": "Convert shapefiles to GeoJSON",
   "main": "convert-to-geojson.js",
   "scripts": {
-    "convert": "node convert-to-geojson.js"
+    "convert": "node convert-to-geojson.js",
+    "optimize": "node optimize-geojson.js",
+    "optimize:simplify": "node optimize-geojson.js --simplify"
   },
   "dependencies": {
     "shapefile": "^0.6.6"

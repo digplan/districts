@@ -124,12 +124,18 @@
                 
                 // Load 2024 GeoJSON (converted from shapefile)
                 try {
-                    districts = await d3.json("districts-2024.geojson");
-                    console.log("Loaded 2024 GeoJSON with", districts.features.length, "features");
+                    districts = await d3.json("districts-2024-optimized.geojson");
+                    console.log("Loaded 2024 optimized GeoJSON with", districts.features.length, "features");
                 } catch (error) {
-                    console.warn("Failed to load 2024 GeoJSON, falling back to 2010:", error);
-                    districts = await d3.json("gz_2010_us_500_11_20m.json");
-                    console.log("Loaded 2010 GeoJSON with", districts.features.length, "features");
+                    console.warn("Failed to load optimized GeoJSON, trying full version:", error);
+                    try {
+                        districts = await d3.json("districts-2024.geojson");
+                        console.log("Loaded 2024 GeoJSON with", districts.features.length, "features");
+                    } catch (error2) {
+                        console.warn("Failed to load 2024 GeoJSON, falling back to 2010:", error2);
+                        districts = await d3.json("gz_2010_us_500_11_20m.json");
+                        console.log("Loaded 2010 GeoJSON with", districts.features.length, "features");
+                    }
                 }
                 
                 legislators = await d3.json("legislators-current.json");
