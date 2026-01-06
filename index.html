@@ -119,10 +119,20 @@
             });
 
             try {
-                const [districts, legislators] = await Promise.all([
-                    d3.json("gz_2010_us_500_11_20m.json"),
-                    d3.json("legislators-current.json")
-                ]);
+                let districts;
+                let legislators;
+                
+                // Load 2024 GeoJSON (converted from shapefile)
+                try {
+                    districts = await d3.json("districts-2024.geojson");
+                    console.log("Loaded 2024 GeoJSON with", districts.features.length, "features");
+                } catch (error) {
+                    console.warn("Failed to load 2024 GeoJSON, falling back to 2010:", error);
+                    districts = await d3.json("gz_2010_us_500_11_20m.json");
+                    console.log("Loaded 2010 GeoJSON with", districts.features.length, "features");
+                }
+                
+                legislators = await d3.json("legislators-current.json");
 
                 const fipsToState = {
                     "01": "AL", "02": "AK", "04": "AZ", "05": "AR", "06": "CA", "08": "CO", "09": "CT",
@@ -170,8 +180,8 @@
                     .attr("d", path)
                     .attr("fill", (d) => {
                         const props = d.properties || {};
-                        const stateFips = props.STATE;
-                        const districtNum = parseInt(props.CD);
+                        const stateFips = props.STATEFP || props.STATE;
+                        const districtNum = parseInt(props.CD119FP || props.CD118FP || props.CD || props.CD118 || props.CD119);
                         const stateAbbr = fipsToState[stateFips];
                         
                         if (stateAbbr && !isNaN(districtNum)) {
@@ -189,8 +199,8 @@
                         
                         const tooltip = document.getElementById("tooltip");
                         const props = d.properties || {};
-                        const stateFips = props.STATE;
-                        const districtNum = parseInt(props.CD);
+                        const stateFips = props.STATEFP || props.STATE;
+                        const districtNum = parseInt(props.CD119FP || props.CD118FP || props.CD || props.CD118 || props.CD119);
                         const stateAbbr = fipsToState[stateFips];
                         
                         let tooltipText = `${stateAbbr}-${districtNum}`;
@@ -216,8 +226,8 @@
                     })
                     .on("mouseout", (event, d) => {
                         const props = d.properties || {};
-                        const stateFips = props.STATE;
-                        const districtNum = parseInt(props.CD);
+                        const stateFips = props.STATEFP || props.STATE;
+                        const districtNum = parseInt(props.CD119FP || props.CD118FP || props.CD || props.CD118 || props.CD119);
                         const stateAbbr = fipsToState[stateFips];
                         
                         let fillColor = "#94a3b8";

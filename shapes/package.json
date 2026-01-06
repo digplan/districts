@@ -1,0 +1,13 @@
+{
+  "name": "shapefile-converter",
+  "version": "1.0.0",
+  "description": "Convert shapefiles to GeoJSON",
+  "main": "convert-to-geojson.js",
+  "scripts": {
+    "convert": "node convert-to-geojson.js"
+  },
+  "dependencies": {
+    "shapefile": "^0.6.6"
+  }
+}
+

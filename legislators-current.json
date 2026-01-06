@@ -19776,72 +19776,6 @@
     "terms": [
       {
         "type": "rep",
-        "start": "1999-01-06",
-        "end": "2001-01-03",
-        "state": "CA",
-        "district": 1,
-        "party": "Democrat"
-      },
-      {
-        "type": "rep",
-        "start": "2001-01-03",
-        "end": "2003-01-03",
-        "state": "CA",
-        "district": 1,
-        "party": "Democrat"
-      },
-      {
-        "type": "rep",
-        "start": "2003-01-07",
-        "end": "2005-01-03",
-        "state": "CA",
-        "district": 1,
-        "party": "Democrat",
-        "url": "http://www.house.gov/mthompson"
-      },
-      {
-        "type": "rep",
-        "start": "2005-01-04",
-        "end": "2007-01-03",
-        "state": "CA",
-        "district": 1,
-        "party": "Democrat",
-        "url": "http://www.house.gov/mthompson"
-      },
-      {
-        "type": "rep",
-        "start": "2007-01-04",
-        "end": "2009-01-03",
-        "state": "CA",
-        "district": 1,
-        "party": "Democrat",
-        "url": "http://mikethompson.house.gov"
-      },
-      {
-        "type": "rep",
-        "start": "2009-01-06",
-        "end": "2011-01-03",
-        "state": "CA",
-        "district": 1,
-        "party": "Democrat",
-        "url": "http://mikethompson.house.gov"
-      },
-      {
-        "type": "rep",
-        "start": "2011-01-05",
-        "end": "2013-01-03",
-        "state": "CA",
-        "district": 1,
-        "party": "Democrat",
-        "url": "http://mikethompson.house.gov",
-        "address": "231 Cannon HOB; Washington DC 20515-0501",
-        "phone": "202-225-3311",
-        "fax": "202-225-4335",
-        "contact_form": "http://mikethompson.house.gov/contact/email.shtml",
-        "office": "231 Cannon House Office Building"
-      },
-      {
-        "type": "rep",
         "start": "2013-01-03",
         "end": "2015-01-03",
         "state": "CA",
@@ -51058,6 +50992,191 @@
         "address": "2446 Rayburn House Office Building Washington DC 20515-4207",
         "office": "2446 Rayburn House Office Building",
         "phone": "202-225-2811"
+      }
+    ]
+  },
+  {
+    "id": {
+      "bioguide": "G000596",
+      "thomas": null,
+      "govtrack": 456783,
+      "opensecrets": "N00044040",
+      "votesmart": null,
+      "fec": [
+        "H0GA06143"
+      ],
+      "cspan": null,
+      "wikipedia": "Marjorie Taylor Greene",
+      "house_history": null,
+      "ballotpedia": "Marjorie Taylor Greene",
+      "maplight": null,
+      "icpsr": null,
+      "wikidata": "Q96320766",
+      "google_entity_id": null,
+      "pictorial": null
+    },
+    "name": {
+      "first": "Marjorie",
+      "middle": "Taylor",
+      "last": "Greene",
+      "official_full": "Marjorie Taylor Greene"
+    },
+    "bio": {
+      "birthday": "1974-05-27",
+      "gender": "F"
+    },
+    "terms": [
+      {
+        "type": "rep",
+        "start": "2021-01-03",
+        "end": "2023-01-03",
+        "state": "GA",
+        "district": 14,
+        "party": "Republican",
+        "url": "https://greene.house.gov",
+        "address": "1023 Longworth House Office Building Washington DC 20515-1014",
+        "office": "1023 Longworth House Office Building",
+        "phone": "202-225-5211"
+      },
+      {
+        "type": "rep",
+        "start": "2023-01-03",
+        "end": "2025-01-03",
+        "state": "GA",
+        "district": 14,
+        "party": "Republican",
+        "url": "https://greene.house.gov",
+        "address": "1023 Longworth House Office Building Washington DC 20515-1014",
+        "office": "1023 Longworth House Office Building",
+        "phone": "202-225-5211"
+      },
+      {
+        "type": "rep",
+        "start": "2025-01-03",
+        "end": "2027-01-03",
+        "state": "GA",
+        "district": 14,
+        "party": "Republican",
+        "url": "https://greene.house.gov",
+        "address": "1023 Longworth House Office Building Washington DC 20515-1014",
+        "office": "1023 Longworth House Office Building",
+        "phone": "202-225-5211"
+      }
+    ]
+  },
+  {
+    "id": {
+      "bioguide": "L000578",
+      "thomas": null,
+      "govtrack": 412510,
+      "opensecrets": "N00031527",
+      "votesmart": 29712,
+      "fec": [
+        "H2CA02142"
+      ],
+      "cspan": 81510,
+      "wikipedia": "Doug LaMalfa",
+      "maplight": null,
+      "icpsr": null,
+      "house_history": null,
+      "wikidata": "Q3039073",
+      "google_entity_id": null,
+      "ballotpedia": "Doug LaMalfa",
+      "pictorial": null
+    },
+    "name": {
+      "first": "Doug",
+      "last": "LaMalfa",
+      "official_full": "Doug LaMalfa"
+    },
+    "bio": {
+      "birthday": "1960-07-02",
+      "gender": "M"
+    },
+    "terms": [
+      {
+        "type": "rep",
+        "start": "2013-01-03",
+        "end": "2015-01-03",
+        "state": "CA",
+        "district": 1,
+        "party": "Republican",
+        "url": "https://lamalfa.house.gov",
+        "address": "322 Cannon House Office Building Washington DC 20515-0501",
+        "office": "322 Cannon House Office Building",
+        "phone": "202-225-3076"
+      },
+      {
+        "type": "rep",
+        "start": "2015-01-06",
+        "end": "2017-01-03",
+        "state": "CA",
+        "district": 1,
+        "party": "Republican",
+        "url": "https://lamalfa.house.gov",
+        "address": "322 Cannon House Office Building Washington DC 20515-0501",
+        "office": "322 Cannon House Office Building",
+        "phone": "202-225-3076"
+      },
+      {
+        "type": "rep",
+        "start": "2017-01-03",
+        "end": "2019-01-03",
+        "state": "CA",
+        "district": 1,
+        "party": "Republican",
+        "url": "https://lamalfa.house.gov",
+        "address": "322 Cannon House Office Building Washington DC 20515-0501",
+        "office": "322 Cannon House Office Building",
+        "phone": "202-225-3076"
+      },
+      {
+        "type": "rep",
+        "start": "2019-01-03",
+        "end": "2021-01-03",
+        "state": "CA",
+        "district": 1,
+        "party": "Republican",
+        "url": "https://lamalfa.house.gov",
+        "address": "322 Cannon House Office Building Washington DC 20515-0501",
+        "office": "322 Cannon House Office Building",
+        "phone": "202-225-3076"
+      },
+      {
+        "type": "rep",
+        "start": "2021-01-03",
+        "end": "2023-01-03",
+        "state": "CA",
+        "district": 1,
+        "party": "Republican",
+        "url": "https://lamalfa.house.gov",
+        "address": "322 Cannon House Office Building Washington DC 20515-0501",
+        "office": "322 Cannon House Office Building",
+        "phone": "202-225-3076"
+      },
+      {
+        "type": "rep",
+        "start": "2023-01-03",
+        "end": "2025-01-03",
+        "state": "CA",
+        "district": 1,
+        "party": "Republican",
+        "url": "https://lamalfa.house.gov",
+        "address": "322 Cannon House Office Building Washington DC 20515-0501",
+        "office": "322 Cannon House Office Building",
+        "phone": "202-225-3076"
+      },
+      {
+        "type": "rep",
+        "start": "2025-01-03",
+        "end": "2027-01-03",
+        "state": "CA",
+        "district": 1,
+        "party": "Republican",
+        "url": "https://lamalfa.house.gov",
+        "address": "322 Cannon House Office Building Washington DC 20515-0501",
+        "office": "322 Cannon House Office Building",
+        "phone": "202-225-3076"
       }
     ]
   }
