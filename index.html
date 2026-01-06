@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Map</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        #map-container {
+            width: 100vw;
+            height: 100vh;
+            background: #f1f5f9;
+            cursor: grab;
+        }
+
+        #map-container:active {
+            cursor: grabbing;
+        }
+
+        .state {
+            stroke: #fff;
+            stroke-width: 0.5px;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            pointer-events: none;
+            font-size: 0.875rem;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="map-container">
+        <div id="tooltip" class="tooltip"></div>
+    </div>
+
+    <script>
+        async function init() {
+            const container = document.getElementById('map-container');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            const svg = d3.select("#map-container")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            const g = svg.append("g");
+
+            const zoom = d3.zoom()
+                .scaleExtent([1, 8])
+                .on("zoom", (event) => {
+                    g.attr("transform", event.transform);
+                });
+
+            svg.call(zoom);
+
+            try {
+                const [districts, legislators] = await Promise.all([
+                    d3.json("gz_2010_us_500_11_20m.json"),
+                    d3.json("legislators-current.json")
+                ]);
+
+                const fipsToState = {
+                    "01": "AL", "02": "AK", "04": "AZ", "05": "AR", "06": "CA", "08": "CO", "09": "CT",
+                    "10": "DE", "11": "DC", "12": "FL", "13": "GA", "15": "HI", "16": "ID", "17": "IL",
+                    "18": "IN", "19": "IA", "20": "KS", "21": "KY", "22": "LA", "23": "ME", "24": "MD",
+                    "25": "MA", "26": "MI", "27": "MN", "28": "MS", "29": "MO", "30": "MT", "31": "NE",
+                    "32": "NV", "33": "NH", "34": "NJ", "35": "NM", "36": "NY", "37": "NC", "38": "ND",
+                    "39": "OH", "40": "OK", "41": "OR", "42": "PA", "44": "RI", "45": "SC", "46": "SD",
+                    "47": "TN", "48": "TX", "49": "UT", "50": "VT", "51": "VA", "53": "WA", "54": "WV",
+                    "55": "WI", "56": "WY"
+                };
+
+                const legislatorMap = new Map();
+                legislators.forEach(leg => {
+                    const term = leg.terms[leg.terms.length - 1];
+                    if (term.type === 'rep' && term.district !== undefined) {
+                        const key = `${term.state}-${term.district}`;
+                        legislatorMap.set(key, {
+                            name: leg.name.official_full || `${leg.name.first} ${leg.name.last}`,
+                            party: term.party
+                        });
+                    }
+                });
+                
+                console.log(`Loaded ${legislatorMap.size} representatives`);
+
+                const projection = d3.geoAlbersUsa()
+                    .fitSize([width, height], districts);
+
+                const path = d3.geoPath().projection(projection);
+
+                const getPartyColor = (party) => {
+                    if (!party) return "#94a3b8"; // gray for unknown
+                    const partyLower = party.toLowerCase();
+                    if (partyLower.includes("republican")) return "#dc2626"; // red
+                    if (partyLower.includes("democrat")) return "#2563eb"; // blue
+                    return "#94a3b8"; // gray for other parties
+                };
+
+                g.selectAll("path")
+                    .data(districts.features)
+                    .enter()
+                    .append("path")
+                    .attr("class", "state")
+                    .attr("d", path)
+                    .attr("fill", (d) => {
+                        const props = d.properties || {};
+                        const stateFips = props.STATE;
+                        const districtNum = parseInt(props.CD);
+                        const stateAbbr = fipsToState[stateFips];
+                        
+                        if (stateAbbr && !isNaN(districtNum)) {
+                            const key = `${stateAbbr}-${districtNum}`;
+                            const legislator = legislatorMap.get(key);
+                            if (legislator) {
+                                return getPartyColor(legislator.party);
+                            }
+                        }
+                        return "#94a3b8"; // gray for districts without legislator data
+                    })
+                    .on("mouseover", (event, d) => {
+                        const originalFill = d3.select(event.currentTarget).attr("fill");
+                        d3.select(event.currentTarget).attr("fill", d3.rgb(originalFill).darker(0.5));
+                        
+                        const tooltip = document.getElementById("tooltip");
+                        const props = d.properties || {};
+                        const stateFips = props.STATE;
+                        const districtNum = parseInt(props.CD);
+                        const stateAbbr = fipsToState[stateFips];
+                        
+                        let tooltipText = `${stateAbbr}-${districtNum}`;
+                        if (stateAbbr && districtNum !== undefined) {
+                            const key = `${stateAbbr}-${districtNum}`;
+                            const legislator = legislatorMap.get(key);
+                            if (legislator) {
+                                tooltipText = `${legislator.name}\n${stateAbbr}-${districtNum} (${legislator.party})`;
+                            } else {
+                                tooltipText = `${stateAbbr}-${districtNum}`;
+                            }
+                        }
+                        
+                        tooltip.textContent = tooltipText;
+                        tooltip.style.opacity = 1;
+                        tooltip.style.left = (event.pageX + 10) + "px";
+                        tooltip.style.top = (event.pageY + 10) + "px";
+                    })
+                    .on("mousemove", (event) => {
+                        const tooltip = document.getElementById("tooltip");
+                        tooltip.style.left = (event.pageX + 10) + "px";
+                        tooltip.style.top = (event.pageY + 10) + "px";
+                    })
+                    .on("mouseout", (event, d) => {
+                        const props = d.properties || {};
+                        const stateFips = props.STATE;
+                        const districtNum = parseInt(props.CD);
+                        const stateAbbr = fipsToState[stateFips];
+                        
+                        let fillColor = "#94a3b8";
+                        if (stateAbbr && districtNum !== undefined) {
+                            const key = `${stateAbbr}-${districtNum}`;
+                            const legislator = legislatorMap.get(key);
+                            if (legislator) {
+                                fillColor = getPartyColor(legislator.party);
+                            }
+                        }
+                        
+                        d3.select(event.currentTarget).attr("fill", fillColor);
+                        document.getElementById("tooltip").style.opacity = 0;
+                    });
+
+            } catch (error) {
+                console.error("Error loading map:", error);
+                svg.append("text")
+                    .attr("x", width / 2)
+                    .attr("y", height / 2)
+                    .attr("text-anchor", "middle")
+                    .text("Error loading map");
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
