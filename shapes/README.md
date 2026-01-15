@@ -44,4 +44,3 @@ Options:
 - `--precision N`: Set coordinate precision (default: 5)
 - `--simplify`: Enable geometry simplification
 - `--pretty`: Keep pretty-printed JSON (default: minified)
-
